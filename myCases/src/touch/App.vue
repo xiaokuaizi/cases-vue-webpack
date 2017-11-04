@@ -94,19 +94,10 @@ export default {
     
     var $wrapper = this.$refs.wrapper,
 	      $logger = this.$refs.logger;
-
-
-		  $wrapper.addEventListener('touchstart',(event) => {
-            this.touch(event);
-        });  
-         $wrapper.addEventListener('touchmove',(event) => {
-            this.touch(event);
-        }); 
-         $wrapper.addEventListener('touchend',(event) => {
-            this.touch(event);
-        }); 
-	    // $wrapper.addEventListener('touchmove',this.touch, false);  
-	    // $wrapper.addEventListener('touchend',this.touch, false);
+        
+      $wrapper.addEventListener('touchstart',this.touch, false);  
+	    $wrapper.addEventListener('touchmove',this.touch, false);  
+	    $wrapper.addEventListener('touchend',this.touch, false);
 
 	    $logger.addEventListener('touchstart',this.subtouch,false);  
 	    $logger.addEventListener('touchmove',this.subtouch, false);  
