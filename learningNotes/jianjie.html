@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <style>
+            ol{padding:0;margin:0;text-align: left;margin-left:50px;}
+            .item{border:1px solid #c2c3ca;border-radius: 5px;margin: 10px auto;}
+            h4{margin:0;text-align: center;margin: 0 50px;}
+            h4 span{border-bottom: 1px solid #c2c3ca;padding: 0 10px;}
+            #app{text-align: center;font-size: 14px;line-height: 50px;}
+            button,input{border:1px solid #c2c3ca;border-radius: 3px;}
+        </style>
+        <div id="app">
+
+            <div class="item">
+                <h4><span>声明式直接渲染</span></h4>
+                {{ txt }}
+                <h4><span>点击</span></h4>
+                <button v-on:click="reverseMessage">点击-将信息逆序打印</button>
+                <h4><span>v-model</span></h4>
+                <input v-model="txt">
+            </div>
+           
+            <div class="item">
+                <h4><span>指令</span></h4>
+                <span v-bind:title="message">
+                    动态绑定的标题
+                </span>      
+                    
+            </div>
+            <div class="item">
+                <h4><span>条件</span></h4>
+                <p v-if="seen">你现在能看到这个元素</p>
+            </div>
+
+            <div class="item">
+                <h4><span>循环</span></h4>
+                <ol>
+                    <li v-for="todo in todos">
+                        {{ todo.text }}
+                    </li>
+                </ol>
+            </div>
+
+            <div class="item">
+                <h4><span>组件</span></h4>
+                <ol>
+                  <todo-item v-for="todo in groceryList" v-bind:todo = "todo"></todo-item>
+                </ol>
+            </div>
+
+            
+        </div>
+        <script src="vue.js"></script>
+        <script>
+
+
+            Vue.component('todo-item',{
+                props: ['todo'],
+                template: '<li>{{todo.text}}</li>'
+            })
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    txt: 'Hello Vue.js!',
+                    message: '加载这个页面的时间是：' + new Date(),
+                    seen: true,
+                    todos: [
+                        { text: '学习 JavaScript' },
+                        { text: '学习 Vue' },
+                        { text: '写一个很棒的应用' }
+                    ],
+                    groceryList: [
+                        { text: '蔬菜' },
+                        { text: '芝士' },
+                        { text: '其它食物' }
+                    ]
+                },
+                methods: {
+                    reverseMessage: function () {
+                        this.txt = this.txt.split('').reverse().join('')
+                    }
+                }
+                    
+            })
+        </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <style>
+            ol,p,h5{padding:0;margin:0;}
+            ol{text-align: left;margin-left:50px;}
+            .item{border:1px solid #c2c3ca;border-radius: 5px;margin: 10px auto;padding: 10px;}
+            h4{margin:0;text-align: center;margin: 0 50px;}
+            h4 span{border-bottom: 1px solid #c2c3ca;padding: 0 10px;}
+            #app{text-align: center;font-size: 14px;line-height: 50px;}
+            button,input{border:1px solid #c2c3ca;border-radius: 3px;}
+            .tips{color:#d0cdcd;font-size: 10px;}
+            p{line-height: 20px;text-align: left;text-indent: 2em;}
+        </style>
+        <div id="app">
+
+            <div class="item">
+                <h4><span>响应式文本</span></h4>
+                <span>Message: {{ msg }}</span>
+                <h4><span>单次插值v-once</span></h4>
+                <span v-once>Message: {{ msg }}</span>
+                <p class="tips">2s后改变message的值，注意下上方两处值的区别</p>
+            </div>
+
+            <div class="item">
+                <h4><span>原始的HTML  v-html</span></h4>
+                <div v-html="myHtml"></div>
+            </div>
+            <div class="item">
+                <h4><span>属性 v-bind</span></h4>
+                <p v-bind:title = "msg">属性不用mustaches标签，用v-bind替代</p>
+            </div>
+            <div class="item">
+                <h4><span>js表达式</span></h4>
+                <ol>
+                    <li>求和：{{ number + 1 }}</li>
+                    <li> 求boolean：{{ ok ? 'YES' : 'NO' }}</li>
+                    <li>操作字符串：{{ msg.split('').reverse().join('') }}</li>
+                </ol>
+                <p class="tips">每个绑定只能包含单个表达式,语句例如： var a = 1;  流程控制：if(ok){return msg} 均无效</p>
+            </div>
+            <div class="item">
+                <h4><span>过滤器</span></h4>
+                <p>原文：{{message}}</p>
+                <p>取反一次：{{message | reverseData}}</p>
+                <p>取反两次：{{message | reverseData | reverseData}}</p>
+                <p>过滤器接收传参：{{message | reverseData | reverseData("first param ","second param")}}</p>
+            </div>
+
+            <div class="item">
+                <h4><span>修饰符</span></h4>
+                <div v-on:click="parentChangeColor1" v-bind:style="{color: parentColor1}">
+                    父区域
+                    <p v-on:click="changeColor1"  v-bind:style="{color: childColor1}">点击子区域</p>
+                </div>
+                <div @click="parentChangeColor2"  :style="{color: parentColor2}">
+                    父区域
+                    <p @click.stop="changeColor2"  :style="{color: childColor2}">点击子区域</p>
+                </div>
+
+
+            </div>
+            
+        </div>
+        <script src="vue.js"></script>
+        <script>
+            Vue.component('todo-item',{
+                props: ['todo'],
+                template: '<li>{{todo.text}}</li>'
+            })
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg: "the message",
+                    myHtml: '<h5>这是标题</h5><p>这是一个用v-html来渲染的段落，这是一个用v-html来渲染的段落，这是一个用v-html来渲染的段落，这是一个用v-html来渲染的段落，这是一个用v-html来渲染的段落，</p>',
+                    number: 10,
+                    ok: true,
+                    message: '这有一段话,请把它替换成反向的',
+                    childColor1:'black',
+                    parentColor1: "black",
+                    childColor2:'black',
+                    parentColor2: "black"
+
+                },
+                filters: {
+                    reverseData(value, param1, param2){
+                        return value.split('').reverse().join('') + (param1 || '') + (param2 || '');
+                    }
+                },
+                methods: {
+                    parentChangeColor1(){
+                        this.parentColor1 = "blue"
+                    },
+                    changeColor1(){
+                        this.childColor1 = "red"
+                    },
+                    parentChangeColor2(){
+                        this.parentColor2 = "blue"
+                    },
+                    changeColor2(){
+                        this.childColor2 = "red"
+                    }
+                },
+                mounted(){
+                   setTimeout(() => {
+                        this.msg = "change the message"
+                   }, 2000)
+                }
+                    
+            })
+        </script>
+</body>
+</html>
