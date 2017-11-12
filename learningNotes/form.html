@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <style>
+            ol{padding:0;margin:0;text-align: left;margin-left:50px;}
+            .item{border:1px solid #c2c3ca;border-radius: 5px;margin: 10px auto;}
+            h4{margin:0;text-align: center;margin: 0 50px;}
+            h4 span{border-bottom: 1px solid #c2c3ca;padding: 0 10px;}
+            #app{text-align: center;font-size: 14px;line-height: 50px;}
+            button,input{border:1px solid #c2c3ca;border-radius: 3px;}
+            .tips{color:#d0cdcd;font-size: 10px;}
+            select{border:1px solid #c2c3ca;width:50px;}
+        </style>
+        <div id="app">
+            
+            <div class="item">
+                <h4><span>checkbox</span></h4>
+                <input type="checkbox" v-model="checked"><label for="">{{checked}}</label>
+                <p class="tips">单个勾选框，绑定到布尔值</p>
+
+                <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+                <label for="jack">Jack</label>
+                <input type="checkbox" id="john" value="John" v-model="checkedNames">
+                <label for="john">John</label>
+                <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+                <label for="mike">Mike</label>
+                <br>
+                <span>Checked names: {{ checkedNames }}</span>
+                <p class="tips">多个钩选框，绑定到同一数组</p>
+            </div>
+            <div class="item">
+                <h4><span>radio</span></h4>
+                <input type="radio" id="one" value="One" v-model="picked">
+                <label for="one">One</label>
+                <br>
+                <input type="radio" id="two" value="Two" v-model="picked">
+                <label for="two">Two</label>
+                <br>
+                <span>Picked: {{ picked }}</span>
+            </div>
+            <div class="item">
+                <h4><span>select</span></h4>
+                <select v-model="selected">
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                </select>
+                <span>Selected: {{ selected }}</span>
+                <p class="tips">单选</p>
+                <select v-model="selected1" multiple>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                </select>
+                <br>
+                <span>Selected: {{ selected1 }}</span>
+                <p class="tips">多选（绑定到同一数组）</p>
+            </div>
+            <div class="item">
+                <h4><span>修饰符</span></h4>
+                the message: {{msg}}
+                <br>
+                常见效果：
+                <input type="text" v-model="msg">
+                <p class="tips">随输入同步输入框值与数据</p>
+
+                <h4><span>修饰符-lazy</span></h4>
+                增加.lazy修饰符：
+                <input type="text" v-model.lazy="msg">
+                <p class="tips">用了lazy的修饰符，change后再同步数据</p>
+
+                <h4><span>修饰符-number</span></h4>
+                type为text时，输入看效果：<input type="text" v-model="msg1">
+                类型为：{{typeof msg1}}
+                <p class="tips">type为text时，即使输入的为数字，typeof检测的类型也为string</p>
+                type为number时，输入看效果：<input type="number" v-model.number="msg2" >
+                类型为：{{typeof msg2}}
+                <p class="tips">type为number时，typeof检测的类型也为number</p>
+                type为text+.number，输入看效果：<input type="text" v-model.number="msg3" >
+                类型为：{{typeof msg3}}
+                <p class="tips">用了.number，type为text时，typeof检测的类型也为number</p>
+
+                <h4><span>修饰符-trim</span></h4>
+                去除首尾空白字符:<input v-model.trim="msg4">
+            </div>
+            
+        </div>
+        <script src="vue.js"></script>
+        <script>
+              var vm = new Vue({
+                el: '#app',
+                data: {
+                    checked: false,
+                    checkedNames: [],
+                    picked: '',
+                    selected: '',
+                    selected1: [],
+                    msg: "",
+                    msg1: "",
+                    msg2: "",
+                    msg3: "",
+                    msg4: ""
+                }
+                    
+            })
+        </script>
+</body>
+</html>

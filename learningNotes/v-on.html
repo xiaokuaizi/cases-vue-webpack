@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        button{border:1px solid #c2c3ca;}
+    </style>
+</head>
+<body>
+
+        <div id="counter-event-example">
+            <p>父组件的总数：{{ total }}</p>
+            <button-counter v-on:increment="incrementTotal"></button-counter>
+            <button-counter v-on:increment="incrementTotal"></button-counter>
+        </div>
+        <script src="vue.js"></script>
+        <script>
+            Vue.component('button-counter', {
+                template: '<button v-on:click="incrementSelf">子组件点击数：{{ counter }}</button>',
+                data: function () {
+                    return {
+                    counter: 0
+                    }
+                },
+                methods: {
+                    incrementSelf: function () {
+                        this.counter += 1
+                        this.$emit('increment')
+                    }
+                },
+                })
+                new Vue({
+                el: '#counter-event-example',
+                data: {
+                    total: 0
+                },
+                methods: {
+                    incrementTotal: function () {
+                        this.total += 1
+                    }
+                }
+            })
+                    </script>
+</body>
+</html>

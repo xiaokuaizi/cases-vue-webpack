@@ -16,7 +16,6 @@
             button,input{border:1px solid #c2c3ca;border-radius: 3px;}
         </style>
         <div id="app">
-
             <div class="item">
                 <h4><span>声明式直接渲染</span></h4>
                 {{ txt }}
@@ -39,10 +38,16 @@
             </div>
 
             <div class="item">
-                <h4><span>循环</span></h4>
+                <h4><span>循环-数组</span></h4>
                 <ol>
                     <li v-for="todo in todos">
                         {{ todo.text }}
+                    </li>
+                </ol>
+                <h4><span>循环-对象</span></h4>
+                <ol>
+                    <li v-for="(value,key,index) in objectList">
+                        index_{{index}}.key_{{key}}--{{ value }}
                     </li>
                 </ol>
             </div>
@@ -51,6 +56,10 @@
                 <h4><span>组件</span></h4>
                 <ol>
                   <todo-item v-for="todo in groceryList" v-bind:todo = "todo"></todo-item>
+                </ol>
+                <ol>
+                    <h4><span>组件-is</span></h4>
+                    <li v-for="todo in groceryList" v-bind:todo = "todo" is="todo-item"></li>
                 </ol>
             </div>
 
@@ -80,7 +89,13 @@
                         { text: '蔬菜' },
                         { text: '芝士' },
                         { text: '其它食物' }
-                    ]
+                    ],
+                    objectList: {
+                        name1: "the first",
+                        name2: "the second",
+                        name3: "the third"
+                    },
+                    checked: false
                 },
                 methods: {
                     reverseMessage: function () {
