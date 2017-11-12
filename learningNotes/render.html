@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #app{text-align: center;line-height: 50px;}
+        h4{margin:0;text-align: center;margin: 0 50px;}
+        h4 span{border-bottom: 1px solid #c2c3ca;padding: 0 10px;}
+    </style>
+</head>
+<body>
+
+        <div id="app">
+            <h4> <span>效果->h标签+a标签+内容</span></h4>   
+            <h1>
+                <a name="hello-world" href="#hello-world">
+                    Hello world!
+                </a>
+            </h1>
+
+
+            <h4> <span>简单的渲染->h标签+内容</span></h4>   
+            <show-heading :level="1">Hello world!</show-heading>
+            <show-heading :level="2">Hello world!</show-heading>
+            <show-heading :level="3">Hello world!</show-heading>
+
+            <h4> <span>完整的代码</span></h4> 
+            <anchored-heading :level="1">Hello world!</anchored-heading>
+            <anchored-heading :level="2"><div><span>Hello world!</span></div></anchored-heading>
+            <anchored-heading :level="3">Hello world!</anchored-heading>
+        </div>
+        <script src="vue.js"></script>
+        <script>
+
+            Vue.component('show-heading', {
+                render: function (createElement) {
+                    return createElement(
+                        'h' + this.level,   // tag 名称 // tag name
+                        this.$slots.default // children 数组 // array of children
+                    )
+                },
+                props: {
+                    level: {
+                        type: Number,
+                        required: true
+                    }
+                }
+            })
+
+            //深层次遍历vnode
+            var getChildrenTextContent = function (children) {
+                return children.map(function (node) {
+                    return node.children
+                    ? getChildrenTextContent(node.children)
+                    : node.text
+                }).join('')
+            }
+
+            Vue.component('anchored-heading', {
+                render: function (createElement) {
+                    var headingId = getChildrenTextContent(this.$slots.default)
+                                    .toLowerCase()  //转成小写
+                                    .replace(/\W+/g, '-')  //匹配任何非单词字符为-
+                                    .replace(/(^\-|\-$)/g, ''); //将开始或者结尾的-去掉
+
+                    return createElement(
+                        'h' + this.level,   // tag 名称 // tag name
+                        [   //子节点
+                            createElement('a', {
+                                attrs: {
+                                    name: headingId,
+                                    href: '#' + headingId
+                                }
+                            }, this.$slots.default)
+                        ]
+                    )
+                },
+                props: {
+                    level: {
+                        type: Number,
+                        required: true
+                    }
+                }
+            })
+        
+            new Vue({
+                el: '#app'
+            })
+       </script>
+</body>
+</html>
