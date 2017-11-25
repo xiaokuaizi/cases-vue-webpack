@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <h1>{{ msg }}</h1>
+
+    {{$data.msg}}
+    <br />
+    {{this.$data.msg}}
+    {{this}}
   </div>
 </template>
 
@@ -11,6 +16,10 @@ export default {
     return {
       msg: 'This is a test case'
     }
+  },
+  mounted(){
+    console.log(this.$data.msg)
+    console.log(this)
   }
 }
 </script>
